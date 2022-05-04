@@ -17,6 +17,8 @@ library(magrittr)
 ```
 Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
 
+foo bar hoge
+
 ## VcfStats_Result {.tabset}
 
 ### Number of SNPs
