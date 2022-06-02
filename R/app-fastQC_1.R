@@ -1,5 +1,6 @@
 ###################################################################
 # this is a tryout app by florian
+# it is a copy in all but names of app-fastQC.R
 #
 # Functional Genomics Center Zurich
 # This code is distributed under the terms of the GNU General
@@ -86,7 +87,7 @@ ezMethodFastQC_1 <- function(input = NA, output = NA, param = NA,
   styleFiles <- file.path(
     system.file("templates", package = "ezRun"),
     c(
-      "fgcz.css", "FastQC.Rmd", "FastQC_overview.Rmd",
+      "fgcz.css", "FastQC_1.Rmd", "FastQC_1_overview.Rmd",
       "fgcz_header.html", "banner.png"
     )
   )
@@ -112,7 +113,7 @@ ezMethodFastQC_1 <- function(input = NA, output = NA, param = NA,
     plotPage <- plotPages[i]
     pngs <- file.path(reportDirs, "Images", plots[i])
     rmarkdown::render(
-      input = "FastQC_overview.Rmd", envir = new.env(),
+      input = "FastQC_1_overview.Rmd", envir = new.env(),
       output_dir = ".", output_file = plotPage, quiet = TRUE
     )
   }
@@ -173,7 +174,7 @@ ezMethodFastQC_1 <- function(input = NA, output = NA, param = NA,
 
   ## generate the main reports
   rmarkdown::render(
-    input = "FastQC.Rmd", envir = new.env(),
+    input = "FastQC_1.Rmd", envir = new.env(),
     output_dir = ".", output_file = htmlFile, quiet = TRUE
   )
 
