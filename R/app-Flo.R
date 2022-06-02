@@ -1,11 +1,12 @@
 ###################################################################
+# Flo App, created by Florian Vetsch for population genetic analysis
 # Functional Genomics Center Zurich
 # This code is distributed under the terms of the GNU General
 # Public License Version 3, June 2007.
 # The terms are available here: http://www.gnu.org/licenses/gpl.html
 # www.fgcz.ch
 
-ezMethodVcfStats <- function(input = NA, output = NA, param = NA,
+ezMethodFlo <- function(input = NA, output = NA, param = NA,
                            htmlFile = "00index.html") {
   # #setwdNew(basename(output$getColumn("Report")))
   dataset <- input$meta
@@ -40,7 +41,7 @@ ezMethodVcfStats <- function(input = NA, output = NA, param = NA,
   styleFiles <- file.path(
     system.file("templates", package = "ezRun"),
     c(
-      "fgcz.css", "VcfStats.Rmd",
+      "fgcz.css", "Flo.Rmd",
       "fgcz_header.html", "banner.png"
     )
   )
@@ -48,7 +49,7 @@ ezMethodVcfStats <- function(input = NA, output = NA, param = NA,
 
   ### generate the main reports
   rmarkdown::render(
-    input = "VcfStats.Rmd", envir = new.env(),
+    input = "Flo.Rmd", envir = new.env(),
     output_dir = ".", output_file = htmlFile, quiet = TRUE
   )
 
@@ -75,15 +76,15 @@ ezMethodVcfStats <- function(input = NA, output = NA, param = NA,
 ##'   {Creates and returns the images used by \code{plotQualityMatrixAsHeatmap()}.}
 ##' }
 
-EzAppVcfStats <-
-  setRefClass("EzAppVcfStats",
+EzAppFlo <-
+  setRefClass("EzAppFlo",
     contains = "EzApp",
     methods = list(
       initialize = function() {
         "Initializes the application using its specific defaults."
-        runMethod <<- ezMethodVcfStats
-        name <<- "EzAppVcfStats"
-        appDefaults <<- rbind(perLibrary = ezFrame(Type = "logical", DefaultValue = TRUE, Description = "VcfStats brabra"))
+        runMethod <<- ezMethodFlo
+        name <<- "EzAppFlo"
+        appDefaults <<- rbind(perLibrary = ezFrame(Type = "logical", DefaultValue = TRUE, Description = "Flo brabra"))
       }
     )
   )
