@@ -1,6 +1,6 @@
 ---
-title: "`r paste('VcfStats:', param$name)`"
-author: "Functional Genomics Center Zurich"
+title: "`r paste('Flo:', param$name)`"
+author: "Florian Vetsch"
 output: 
   html_document:
     self_contained: false
@@ -19,7 +19,7 @@ Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
 
 foo bar hoge
 
-## VcfStats_Result {.tabset}
+## Flo_Result {.tabset}
 
 ### Number of SNPs
 
