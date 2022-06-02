@@ -1,0 +1,157 @@
+---
+title: "`r paste('FASTQC:', param$name)`"
+author: "Functional Genomics Center Zurich"
+output: 
+  html_document:
+    self_contained: false
+    lib_dir: rmarkdownLib
+    includes:
+      in_header: fgcz_header.html
+    css: fgcz.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+```
+Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
+
+## FastQC_Result {.tabset}
+
+### Read Counts
+The read counts in each sample.
+
+```{r readCounts, echo=FALSE}
+readCount <- ans4Report[["Read Counts"]]
+```
+
+```{r readCountsPlotly, fig.height=7, fig.width=min(max(7, 7+(length(readCount)-20)*0.3), 30), echo=FALSE, message=FALSE, warning=FALSE}
+m <- list(
+  l = 80,
+  r = 80,
+  b = 200,
+  t = 100,
+  pad = 0
+)
+plot_ly(x=names(readCount), y=readCount, type="bar") %>%
+  layout(title="Total reads",
+         yaxis = list(title = "Counts [Mio]"),
+         margin = m
+  )
+```
+
+### Fastqc Quality Measures
+The summary of [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) reports.
+
+```{r quality, echo=FALSE, results='asis'}
+tbl <- ans4Report[["Fastqc quality measures"]]
+knitr::kable(tbl, col.names=colnames(tbl), row.names=TRUE)
+```
+
+### Per Base Read Quality
+The black and white heatmaps show the average reads quality  
+over all samples per base.
+The color scale corresponds to the percentage of reads at each reads quality.
+
+```{r avgQualColors, fig.width=16, fig.height=2, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+qualMatrixList <- ans4Report[["Per Base Read Quality"]]
+plotList <- plotQualityMatrixAsHeatmapGG2(qualMatrixList, 
+                                          isR2=grepl("_R2$", names(qualMatrixList)))
+isPaired <- isTRUE(param$paired)
+# To plot in the order of R1, R2 in row
+library(grid)
+library(gridExtra)
+## This is quite stupid.
+if(isPaired){
+  grid.arrange(plotList[["R1"]][["Avg Qual Colors"]],
+               plotList[["R2"]][["Avg Qual Colors"]], ncol = 2)
+}else{
+  grid.arrange(plotList[["R1"]][["Avg Qual Colors"]], ncol = 2)
+}
+```
+
+```{r average, fig.width=16, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+if(isPaired){
+  grid.arrange(plotList[["R1"]][["Average"]],
+               plotList[["R2"]][["Average"]], ncol = 2)
+}else{
+  grid.arrange(plotList[["R1"]][["Average"]], ncol = 2)
+}
+```
+
+The blue and read heatmaps show the difference between each sample's reads quality
+and the average reads quality per base.
+The red represents a higher percentage of reads over the average, 
+while the blue represents a lower percentage of reads over the average.
+
+```{r diffQualColors, fig.width=16, fig.height=2, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+if(isPaired){
+  grid.arrange(plotList[["R1"]][["Diff Qual Colors"]],
+               plotList[["R2"]][["Diff Qual Colors"]], ncol = 2)
+}else{
+  grid.arrange(plotList[["R1"]][["Diff Qual Colors"]], ncol = 2)
+}
+```
+
+```{r sampleDiffQualColors, fig.width=16, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+sampleIndices <- which(!(names(plotList[["R1"]]) %in%
+                       c("Avg Qual Colors", "Average", "Diff Qual Colors")))
+for(sampleIndex in sampleIndices){
+  if(isPaired){
+    grid.arrange(plotList[["R1"]][[sampleIndex]],
+                 plotList[["R2"]][[sampleIndex]], ncol = 2)
+  }else{
+    grid.arrange(plotList[["R1"]][[sampleIndex]], ncol = 2)
+  }
+}
+```
+
+### Correlation
+Correlation between Library concentration measurements and ReadCounts.
+It's only shown when "LibConc_qPCR" or "LibConc_100_800bp" columns exit in `dataset`.
+
+```{r correlation, echo=FALSE, warning=FALSE, message=FALSE}
+dataset <- ans4Report[["dataset"]]
+if(nrow(dataset) > 1){
+  plotReadCountToLibConc(dataset,
+                         colname='LibConc_qPCR [Characteristic]')
+  plotReadCountToLibConc(dataset,
+                         colname='LibConc_100_800bp [Characteristic]')
+}
+```
+
+### Heatmaps of reads/concentration per cell on the plate
+Sequenced reads or concentration per cell, on the plate layout.
+The current supported plate layout format is "PlateNumber_[A-Z][Integer]", e.g. "1_A2".
+Otherwise, the platelayout is not shown.
+
+The heatmap values are in $log10$ scale.
+The colorScale ranges from half of median value to twice of median value.
+
+```{r plate layout, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
+plateMatrix <- plateStatistics(dataset)
+if(!is.na(plateMatrix)){
+  l <- htmltools::tagList()
+  ## This is the way of plotting plotly figures within a loop in knitr code chunk
+  for(plateName in names(plateMatrix)){
+    for(colname in names(plateMatrix[[plateName]])){
+      p <- heatmapPlate(plateMatrix[[plateName]][[colname]], 
+                        title=paste(plateName, colname, sep=": "),
+                        center=TRUE, log10=TRUE,
+                        width = 500*(1 + sqrt(5))/2, height = 500)
+      l[[paste(plateName, colname, sep=": ")]] <- as_widget(p)
+    }
+  }
+  l
+}
+```
+
+### Input Dataset
+```{r, echo=FALSE, message=FALSE}
+ezInteractiveTableRmd(values=ans4Report[["dataset"]])
+```
+
+### SessionInfo
+```{r, echo=FALSE}
+sessionInfo()
+```
