@@ -1,5 +1,5 @@
 ---
-title: "`r paste('FASTQC:', plotPage)`"
+title: "`r paste('FASTQC_1:', plotPage)`"
 author: "Functional Genomics Center Zurich"
 output:
   html_document:
