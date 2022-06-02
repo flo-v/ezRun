@@ -1,5 +1,5 @@
 ---
-title: "`r paste('FASTQC:', param$name)`"
+title: "`r paste('FASTQC_1:', param$name)`"
 author: "Functional Genomics Center Zurich"
 output: 
   html_document:
@@ -16,7 +16,7 @@ library(plotly)
 ```
 Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
 
-## FastQC_Result {.tabset}
+## FastQC_1_Result {.tabset}
 
 ### Read Counts
 The read counts in each sample.
@@ -40,8 +40,8 @@ plot_ly(x=names(readCount), y=readCount, type="bar") %>%
   )
 ```
 
-### Fastqc Quality Measures
-The summary of [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) reports.
+### Fastqc_1 Quality Measures
+The summary of [FastQC_1](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) reports.
 
 ```{r quality, echo=FALSE, results='asis'}
 tbl <- ans4Report[["Fastqc quality measures"]]
