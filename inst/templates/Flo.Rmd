@@ -30,7 +30,7 @@ samples <- gsub("samples/", "", data$Sample)
 plot_ly(data, x = samples, y = data$Counts)
 ```
 ### PCA tryouts
-```{r}
+```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 head(data, 20)
 ```
 
