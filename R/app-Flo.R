@@ -37,6 +37,13 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
   result <- ezSystem(cmd)
   gc()
 
+  
+  # convert vcf to gds format
+  vcf.fn <- file.path("/srv/gstore/projects", input$getColumn("Filtered VCF"))
+  # Reformat
+  snpgdsVCF2GDS(vcf.fn, "test.gds", method="biallelic.only")
+  
+  
   ## Copy the style files and templates
   styleFiles <- file.path(
     system.file("templates", package = "ezRun"),
