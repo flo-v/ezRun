@@ -39,6 +39,9 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
 
   
   # convert vcf to gds format
+  library("SNPRelate")
+  # library(SeqArray) # not installed on server
+  library("gdsfmt")
   vcf.fn <- file.path("/srv/gstore/projects", input$getColumn("Filtered VCF"))
   # Reformat
   snpgdsVCF2GDS(vcf.fn, "test.gds", method="biallelic.only")
