@@ -14,33 +14,9 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
   ans4Report[["dataset"]] <- dataset
 
   output_dir <- basename(output$getColumn("Report"))
-  prefix <- file.path(output_dir, "vcf_stats")
-
-  # For Rmd
-  # SNP counts
-  snp_counts <- file.path(output_dir, "vcf_stats.snps")
-
-  # InDel counts
-  # ToDo
-
-  # Private SNP counts
-  private_snp_counts <- file.path(output_dir, "vcf_stats.private")
-
-  # Shared SNP counts
-  shared_snp_counts <- file.path(output_dir, "vcf_stats.shared")
-
-  # Transions/Transversions
-  tstv <- file.path(output_dir, "vcf_stats.samples-tstv")
-
-  # run vcf-stats
-  cmd <- paste("vcf-stats", file.path("/srv/gstore/projects", input$getColumn("Filtered VCF")), "-p", prefix)
-  result <- ezSystem(cmd)
-  gc()
-
   
   # convert vcf to gds format
   library(SNPRelate)
-  # library(SeqArray) # not installed on server
   library("gdsfmt")
   vcf.fn <- file.path("/srv/gstore/projects", input$getColumn("Filtered VCF"))
   # Reformat
