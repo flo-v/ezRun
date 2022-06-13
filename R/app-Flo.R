@@ -39,7 +39,7 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
 
   
   # convert vcf to gds format
-  llibrary(ggplot2)
+  library(ggplot2)
   library(ggrepel)
   library(SNPRelate)
   library("gdsfmt")
