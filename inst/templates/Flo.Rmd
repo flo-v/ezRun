@@ -42,7 +42,7 @@ vars_sum
 ```
 
 Plotting the first 3 PCs
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
   geom_point(alpha=0.5) +
   geom_text(label=df$sample.id, size = 1, check_overlap=T,
@@ -51,7 +51,7 @@ ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
 ```
 
 Plot the first 2 PCs with sample ID as labels
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(df, aes(x = EV1, y = EV2, label = sample.id)) +
   geom_point(alpha=0.5, colour="blue", size = 1) +
   geom_text_repel(size = 1, min.segment.length = 0, box.padding = 0.7,
@@ -62,34 +62,6 @@ ggplot(df, aes(x = EV1, y = EV2, label = sample.id)) +
   theme_bw()
 ```
 
-
-### Private/Shared SNPs
-
-```{r Private SNPs, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
-data <- read.table(private_snp_counts, sep="\t", skip=1)
-names(data) <- c("Private_SNPs", "Sample")
-fig <- plot_ly(data, x = ~Sample, y = ~Private_SNPs, type = 'bar', name = 'Private SNPs')
-fig <- fig %>% layout(title = 'Private SNPs', yaxis = list(title = 'Count'), xaxis=list(title=''))
-fig
-```
-
-```{r Shared SNPs, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
-data <- read.table(shared_snp_counts, sep="\t", skip=1)
-names(data) <- c("Shared_SNPs", "Count")
-fig <- plot_ly(data, x = ~Shared_SNPs, y = ~Count, type = 'bar', name = 'Shared SNPs')
-fig <- fig %>% layout(title = 'Shared SNPs', yaxis = list(title = 'Count'), xaxis=list(title='Number of shared SNPs'))
-fig
-```
-
-### Transisions/Transversions
-
-```{r tstv, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
-data <- read.table(tstv, sep="\t", skip=1)
-names(data) <- c("Transisions", "Transversions", "tstv", "Sample")
-fig <- plot_ly(data, x = ~Sample, y = ~tstv, type = 'bar', name = 'Transisions/Transversions')
-fig <- fig %>% layout(yaxis = list(title = 'ts/tv'), xaxis=list(title=''))
-fig
-```
 
 ### Input Dataset
 ```{r, echo=FALSE, message=FALSE}
