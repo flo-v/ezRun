@@ -30,21 +30,28 @@ samples <- gsub("samples/", "", data$Sample)
 plot_ly(data, x = samples, y = data$Counts)
 ```
 ### PCA tryouts
+
+Summary
 ```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
-head(data, 20)
-# summary
 snpgdsSummary("snp.gds")
+```
 
+Percentage of variance explained per additional PC
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 vars_sum
+```
 
-# Plot with 3 first PC's
+Plotting the first 3 PCs
+```{r}
 ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
   geom_point(alpha=0.5) +
   geom_text(label=df$sample.id, size = 1, check_overlap=T,
             nudge_y = 0.05) +
   theme_bw()
+```
 
-# Plot with sample ID labels
+Plot the first 2 PCs with sample ID as labels
+```{r}
 ggplot(df, aes(x = EV1, y = EV2, label = sample.id)) +
   geom_point(alpha=0.5, colour="blue", size = 1) +
   geom_text_repel(size = 1, min.segment.length = 0, box.padding = 0.7,
