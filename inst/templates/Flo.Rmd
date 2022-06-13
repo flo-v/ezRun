@@ -21,14 +21,6 @@ foo bar hoge
 
 ## Flo_Result {.tabset}
 
-### Number of SNPs
-
-```{r SNP counts, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
-data <- read.table(snp_counts, sep="\t", skip=2)
-names(data) <- c("Counts", "Sample")
-samples <- gsub("samples/", "", data$Sample)
-plot_ly(data, x = samples, y = data$Counts)
-```
 ### PCA tryouts
 
 Summary
