@@ -33,7 +33,26 @@ plot_ly(data, x = samples, y = data$Counts)
 ```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 head(data, 20)
 # summary
-snpgdsSummary("test.gds")
+snpgdsSummary("snp.gds")
+
+vars_sum
+
+# Plot with 3 first PC's
+ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
+  geom_point(alpha=0.5) +
+  geom_text(label=df$sample.id, size = 1, check_overlap=T,
+            nudge_y = 0.05) +
+  theme_bw()
+
+# Plot with sample ID labels
+ggplot(df, aes(x = EV1, y = EV2, label = sample.id)) +
+  geom_point(alpha=0.5, colour="blue", size = 1) +
+  geom_text_repel(size = 1, min.segment.length = 0, box.padding = 0.7,
+                  max.overlaps = 100,
+                  segment.size= 0.1,
+                  segment.linetype = "dashed",
+                  segment.alpha = 0.5) +
+  theme_bw()
 ```
 
 
