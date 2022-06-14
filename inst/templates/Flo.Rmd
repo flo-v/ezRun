@@ -33,11 +33,6 @@ Percentage of variance explained per additional PC
 vars_sum
 ```
 
-Plotting the first 2 PCs
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-plot(df$EV1, df$EV2)
-```
-
 Plotting the first 3 PCs
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
