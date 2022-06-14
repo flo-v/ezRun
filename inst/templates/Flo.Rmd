@@ -14,8 +14,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(plotly)
 library(magrittr)
-library(ggplot2)
-library(ggrepel)
 ```
 Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
 
