@@ -32,6 +32,10 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
   # Transions/Transversions
   tstv <- file.path(output_dir, "vcf_stats.samples-tstv")
 
+  # run vcf-stats
+  cmd <- paste("vcf-stats", file.path("/srv/gstore/projects", input$getColumn("Filtered VCF")), "-p", prefix)
+  result <- ezSystem(cmd)
+  gc()
 
   
   # convert vcf to gds format
