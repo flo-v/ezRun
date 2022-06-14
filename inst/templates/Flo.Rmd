@@ -23,7 +23,7 @@ foo bar hoge
 
 ## Flo_Result {.tabset}
 
-### PCA tryouts
+### PCA
 
 Summary
 ```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
@@ -54,6 +54,19 @@ ggplot(df, aes(x = EV1, y = EV2, label = sample.id)) +
                   segment.linetype = "dashed",
                   segment.alpha = 0.5) +
   theme_bw()
+```
+
+
+### Phylogenetic tree
+
+Newick format
+```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
+tree_newick
+```
+
+Plot tree
+```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
+plot(tr)
 ```
 
 
