@@ -61,7 +61,7 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
  
   
   # Phylogenetic tree
-  library("fastreeR")
+  library("fastreeR", lib.loc = "/misc/GT/analysis/florian/R_LIBS")
   library(ape)
 
   
