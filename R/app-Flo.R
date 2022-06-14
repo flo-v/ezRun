@@ -39,30 +39,31 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
 
   
   # convert vcf to gds format
-  library(ggplot2)
-  library(ggrepel)
   library(SNPRelate)
-  library("gdsfmt")
+  library(gdsfmt)
+  
   snp_pa <- file.path("/srv/gstore/projects", input$getColumn("Filtered VCF"))
   # Reformat
   snpgdsVCF2GDS(snp_pa, "snp.gds", method="biallelic.only")
-  
   # open a GDS file
   snp <- snpgdsOpen("snp.gds")
-  
   # Run PCA
   # algorithm, num.thread, bayesian
   pca <- snpgdsPCA(snp, autosome.only=F, remove.monosnp=F)
- 
   vars <- pca$varprop[is.nan(pca$varprop) == F]
   vars_sum <- cumsum(vars)[cumsum(vars) < 0.8 ]
-  
   # make a data.frame
   df <- data.frame(sample.id = pca$sample.id,
                     EV1 = pca$eigenvect[,1],    # the first eigenvector
                     EV2 = pca$eigenvect[,2],    # the second eigenvector
                     EV3 = pca$eigenvect[,3],
                     stringsAsFactors = T)
+ 
+  
+  # Phylogenetic tree
+  library("fastreeR")
+  library(ape)
+
   
   ## Copy the style files and templates
   styleFiles <- file.path(
