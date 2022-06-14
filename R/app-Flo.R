@@ -51,7 +51,7 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
   # algorithm, num.thread, bayesian
   pca <- snpgdsPCA(snp, autosome.only=F, remove.monosnp=F)
   vars <- pca$varprop[is.nan(pca$varprop) == F]
-  vars_sum <- cumsum(vars)[cumsum(vars) < 0.8 ]
+  vars_sum <- cumsum(vars)[cumsum(vars) < 0.8 ] * 100
   # make a data.frame
   df <- data.frame(sample.id = pca$sample.id,
                     EV1 = pca$eigenvect[,1],    # the first eigenvector
@@ -61,9 +61,13 @@ ezMethodFlo <- function(input = NA, output = NA, param = NA,
  
   
   # Phylogenetic tree
-  library("fastreeR", lib.loc = "/misc/GT/analysis/florian/R_LIBS")
+  library("fastreeR", lib.loc = "/misc/GT/analysis/florian/R_LIBS") # without the lib.loc it doesn't find library
   library(ape)
 
+  # exmp <- vcf2dist("~/ragi_highcov_sa0001_1k.vcf.gz")
+  # exmp <- dist2tree(exmp)
+  tree_newick <- vcf2tree(snp_pa)
+  tr <- ape::read.tree(text=tree_newick)
   
   ## Copy the style files and templates
   styleFiles <- file.path(
