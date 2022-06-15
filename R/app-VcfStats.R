@@ -54,7 +54,11 @@ ezMethodVcfStats <- function(input = NA, output = NA, param = NA,
 
   html_files <- c("00index.html",  "banner.png",  "fgcz.css",  "fgcz_header.html")
   file.copy(from = html_files, to = "vcf_stats")
-  cmd <- "mv rmarkdownLib vcf_stats"
+  if(file.exists("00index_files")){
+    cmd <- "mv rmarkdownLib vcf_stats; mv 00index_files vcf_stats"
+  }else{
+    cmd <- "mv rmarkdownLib vcf_stats"
+  }
   ezSystem(cmd)
 
   return("Success")
