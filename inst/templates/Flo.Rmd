@@ -17,9 +17,8 @@ library(magrittr)
 library(ggplot2)
 library(ggrepel)
 ```
-Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
+Started on `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`  
 
-foo bar hoge
 
 ## Flo_Result {.tabset}
 
@@ -35,7 +34,8 @@ Percentage of variance explained per additional PC
 vars_sum
 ```
 
-Plotting the first 3 PCs
+Plotting the first 3 PCs    
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
   geom_point(alpha=0.5) +
@@ -44,7 +44,8 @@ ggplot(df, aes(x = EV1, y = EV2, colour = EV3)) +
   theme_bw()
 ```
 
-Plot the first 2 PCs with sample ID as labels
+Plot the first 2 PCs with sample ID as labels    
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(df, aes(x = EV1, y = EV2, label = sample.id)) +
   geom_point(alpha=0.5, colour="blue", size = 1) +
@@ -64,8 +65,9 @@ Newick format
 tree_newick
 ```
 
-Plot tree
-```{r, fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
+Plot tree    
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 plot(tr)
 ```
 
